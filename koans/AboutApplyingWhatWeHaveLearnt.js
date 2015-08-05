@@ -37,11 +37,13 @@ describe("About Applying What We Have Learnt", function() {
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
 
-      var productsICanEat = [];
+      var productsICanEat = _.filter(products, function(product) {
+        return !(product.containsNuts || _.contains(product.ingredients, 'mushrooms'));
+      });
 
       /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(0);
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -59,8 +61,15 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
+    /* try chaining range() and reduce() */
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = _.range(1000).reduce(function(prev, x) {
+      if (x % 3 === 0 || x % 5 === 0) {
+        return prev + x;
+      } else {
+        return prev;
+      }
+    }, 0);
 
     expect(233168).toBe(233168);
   });
@@ -79,11 +88,13 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = { "{ingredient name}": 0 };
+    var ingredientCount = _(products).chain().pluck('ingredients').flatten();
 
-    /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(;
+
+    /* chain() together map() / pluck (only grab the ingredients), flatten() and reduce() */
+
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
