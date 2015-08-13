@@ -84,17 +84,24 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(2);
+    expect(ingredientCount.mushrooms).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = _(products).chain().pluck('ingredients').flatten();
+    var ingredientCount = _(products).chain().pluck('ingredients').flatten().reduce(function(sum,current) {
+      if (!sum[current]) {
+        sum[current] = 0;
+      }
+
+      sum[current]++;
+      return sum;
+    }, {}).value();
 
 
 
     /* chain() together map() / pluck (only grab the ingredients), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(2);
+    expect(ingredientCount.mushrooms).toBe(2);
   });
 
   /*********************************************************************************/
